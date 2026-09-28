@@ -14,7 +14,7 @@ rm -rf "$app"
 mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources/payload/scripts" \
     "$app/Contents/Resources/payload/build" "$app/Contents/Resources/payload/ppd" \
     "$app/Contents/Resources/payload/assets"
-xcrun swiftc -swift-version 5 -O -target arm64-apple-macos27.0 \
+xcrun swiftc -swift-version 5 -O -target arm64-apple-macos26.0 \
     -framework AppKit -framework Network installer/PrinterDiscovery.swift installer/App.swift \
     -o "$app/Contents/MacOS/QL580NSetup"
 cat > "$app/Contents/Info.plist" <<PLIST
@@ -29,7 +29,7 @@ cat > "$app/Contents/Info.plist" <<PLIST
 <key>CFBundlePackageType</key><string>APPL</string>
 <key>CFBundleShortVersionString</key><string>$version</string>
 <key>CFBundleVersion</key><string>$version</string>
-<key>LSMinimumSystemVersion</key><string>27.0</string>
+<key>LSMinimumSystemVersion</key><string>26.0</string>
 <key>NSHighResolutionCapable</key><true/>
 <key>NSLocalNetworkUsageDescription</key><string>Find and verify your Brother QL-580N label printer on the local network.</string>
 <key>NSBonjourServices</key><array><string>_pdl-datastream._tcp</string><string>_printer._tcp</string><string>_ipp._tcp</string></array>

@@ -2,7 +2,7 @@
 
 Print from the macOS print dialog to a networked Brother QL-580N. The driver uses an Apple Silicon CUPS filter, with no Rosetta, Homebrew, Python runtime, or Brother binary needed for printing.
 
-This community project is independent of Brother. It currently supports Apple Silicon on macOS 27, network printing over TCP port 9100, and printer status over read-only SNMP on UDP port 161. USB and IPv6 setup are not supported.
+This community project is independent of Brother. It targets Apple Silicon on macOS 26 or later, with network printing over TCP port 9100 and printer status over read-only SNMP on UDP port 161. The driver has been tested on macOS 27; macOS 26 still needs a physical print test. USB and IPv6 setup are not supported.
 
 ## Why this driver exists
 

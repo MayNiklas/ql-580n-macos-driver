@@ -2,7 +2,7 @@
 
 ## Requirements
 
-Build and test on Apple Silicon macOS. The native C filter requires CUPS headers and a compiler from Apple's developer tools. The graphical setup app targets macOS 27 and requires an SDK that supports that target. Python 3 is needed for tests and the optional utilities; all Python code uses the standard library. Do not install Python packages to build this project.
+Build and test on Apple Silicon macOS. The native C filter requires CUPS headers and a compiler from Apple's developer tools. The filter and graphical setup app target macOS 26 or later and require an SDK that supports that target. Python 3 is needed for tests and the optional utilities; all Python code uses the standard library. Do not install Python packages to build this project.
 
 ```sh
 make test
@@ -70,7 +70,7 @@ The driver reads the QL-580N's 32-byte status packet at SNMP OID `.1.3.6.1.4.1.2
 
 Automated tests decode the generated raster stream and check geometry, copying, cutting, compression, trimming, malformed input, roll selection, status failures, and completion handling. CUPS integration tests render PDFs for custom sizes and 300 x 600 DPI. The status tests use a mock side channel. These tests do not replace physical checks with a printer and each supported media type.
 
-The project was originally verified on Apple Silicon macOS 27.0 with QL-580N firmware 1.30 and a 62 mm continuous roll. Physical checks included normal printing and cutting, fine resolution, an empty-roll failure, and recovery. Other media types and the trim feature need physical verification before claiming broad hardware coverage.
+The project was originally verified on Apple Silicon macOS 27.0 with QL-580N firmware 1.30 and a 62 mm continuous roll. Physical checks included normal printing and cutting, fine resolution, an empty-roll failure, and recovery. macOS 26, other media types, and the trim feature need physical verification before claiming broad hardware coverage.
 
 ## Release process
 

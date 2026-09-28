@@ -1,12 +1,12 @@
 CC = clang
-CFLAGS = -std=c11 -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations
+CFLAGS = -std=c11 -O2 -Wall -Wextra -Werror -Wno-deprecated-declarations -mmacosx-version-min=26.0
 ARCH_FLAGS = -arch arm64
 SETUP_BIN = build/QL-580N\ macOS\ Driver\ Setup.app/Contents/MacOS/QL580NSetup
 
 .PHONY: all clean test setup package check-ppd
 all: build/rastertoql580n setup
 
-build/rastertoql580n: src/rastertoql580n.c src/ql_status.c src/ql_status.h
+build/rastertoql580n: src/rastertoql580n.c src/ql_status.c src/ql_status.h Makefile
 	mkdir -p build
 	$(CC) $(CFLAGS) $(ARCH_FLAGS) src/rastertoql580n.c src/ql_status.c -o $@ -lcups
 	codesign --force --sign - $@
