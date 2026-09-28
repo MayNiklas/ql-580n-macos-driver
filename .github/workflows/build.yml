@@ -1,0 +1,70 @@
+name: Build and release
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: xcode-27
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Run tests
+        run: make test
+
+      - name: Build installer archives
+        run: make package
+
+      - name: Upload setup app archive and checksum
+        uses: actions/upload-artifact@v4
+        with:
+          name: ql-580n-macos-driver-setup
+          path: |
+            dist/QL-580N-macOS-Driver-v*-Setup.zip
+            dist/QL-580N-macOS-Driver-v*-Setup.zip.sha256
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out release tag
+        uses: actions/checkout@v4
+
+      - name: Download setup app archive
+        uses: actions/download-artifact@v4
+        with:
+          name: ql-580n-macos-driver-setup
+          path: dist
+
+      - name: Create or update GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(cat VERSION)
+          if [ "$TAG" != "v$version" ]; then
+            echo "Release tag $TAG does not match VERSION v$version" >&2
+            exit 1
+          fi
+          archive="dist/QL-580N-macOS-Driver-v${version}-Setup.zip"
+          test -f "$archive"
+          test -f "$archive.sha256"
+          (cd dist && sha256sum -c "$(basename "$archive").sha256")
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release edit "$TAG" --title "QL-580N macOS Driver v$version" --notes-file RELEASE_NOTES.md
+            gh release upload "$TAG" "$archive" "$archive.sha256" --clobber
+          else
+            gh release create "$TAG" "$archive" "$archive.sha256" --verify-tag \
+              --title "QL-580N macOS Driver v$version" --notes-file RELEASE_NOTES.md
+          fi

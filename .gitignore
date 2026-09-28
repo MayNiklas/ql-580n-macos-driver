@@ -1,0 +1,32 @@
+# Generated build and release files
+/build/
+/dist/
+
+# Local reference downloads and printer diagnostics
+/sources/
+/vendor/
+/local/
+
+# Python environments and tool caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+/htmlcov/
+
+# Local configuration
+/.env
+/.env.*
+!/.env.example
+
+# macOS metadata and editor backups
+.DS_Store
+.AppleDouble/
+._*
+*.swp
+*.swo
+*~
